@@ -10,23 +10,34 @@ class ModulesController extends Controller
 {
     public function getAllUserModules(){
         $user = auth()->user();
-        $userModules = Module::where('userid', $user['id'])->get();
-        return $userModules;
+        return Module::where('userid', $user->id)->get();
     }
 
     public function insertModule(Request $request){
-        $data = $request->all();
         $user = auth()->user();
 
-        if(!$request->name || $request->name && $request->name === ''){
-            return response()->json(['message' => 'No module name specified']);
-        }
+        $module = Module::create([
+            'userid' => $user->id,
+            'name' => $request->name,
+        ]);
 
-        $module = new Module;
-        $module->userid = $user->id;
-        $module->name = $request->name;
-        $module->save();
+        return response()->json(['message' => 'New module added', 'module' => $module], 201);
+    }
 
-        return response()->json(['message' => 'New module added'], 200);
+    public function updateModule(Request $request){
+        $this->authorize('update', $module);
+
+        $module->update([
+            'name' => $request->name,
+        ]);
+
+        return response()->json(['message' => 'Module updated', 'module' => $module], 200);
+    }
+
+    public function deleteModule(Request $request){
+        $this->authorize('delete', $module);
+        $module->delete();
+
+        return response()->json(['message' => 'Module deleted'], 200);
     }
 }

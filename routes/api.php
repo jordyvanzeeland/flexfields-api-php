@@ -29,4 +29,7 @@ Route::post('/login', function (Request $request) {
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/modules', 'App\Http\Controllers\ModulesController@getAllUserModules');
     Route::post('/modules', 'App\Http\Controllers\ModulesController@insertModule');
+    Route::get('/fields', 'App\Http\Controllers\FieldsController@getAllFieldsOfModule');
+    Route::get('/fieldtypes', 'App\Http\Controllers\FieldtypesController@getAllFieldtypes');
+    Route::get('/values', 'App\Http\Controllers\FieldvaluesController@getAllFieldvalues');
 });

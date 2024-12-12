@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('modules', function (Blueprint $table) {
+        Schema::create('fieldtypes', function (Blueprint $table) {
             $table->id();
-            $table->integer('userid');
             $table->string('name');
+            $table->string('tag');
         });
     }
 
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('modules');
+        Schema::dropIfExists('fieldtypes');
     }
 };
